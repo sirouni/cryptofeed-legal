@@ -120,13 +120,37 @@
   .feature{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:24px}
   .feature p{margin:0; color:var(--muted); font-size:15px}
 
-  .tiers{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:34px}
-  .tier{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:28px}
-  .tier.lead{border-color:rgba(53,214,164,.34); background:linear-gradient(180deg,rgba(53,214,164,.07),var(--panel))}
+  .tiers{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:34px; align-items:stretch}
+  .tier{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:28px; position:relative}
+  .tier.pro{
+    border-color:rgba(53,214,164,.55);
+    background:
+      radial-gradient(28rem 16rem at 90% -20%, rgba(53,214,164,.22), transparent 58%),
+      linear-gradient(180deg,rgba(47,169,198,.12),var(--panel) 62%);
+    box-shadow:
+      0 0 0 1px rgba(53,214,164,.18),
+      0 18px 50px -22px rgba(53,214,164,.55);
+    animation: pro-glow 4.8s ease-in-out infinite;
+  }
+  .tier.pro .tag{color:var(--accent)}
+  .tier.pro .price{background:linear-gradient(92deg,var(--ink),var(--accent)); -webkit-background-clip:text; background-clip:text; color:transparent}
+  .pro-mark{
+    position:absolute; top:18px; right:18px;
+    font-size:11px; font-weight:700; letter-spacing:.14em;
+    color:#04202B; background:linear-gradient(97deg,var(--accent),var(--accent2));
+    padding:5px 9px; border-radius:999px;
+  }
+  @keyframes pro-glow{
+    0%,100%{box-shadow:0 0 0 1px rgba(53,214,164,.18), 0 18px 50px -22px rgba(53,214,164,.45)}
+    50%{box-shadow:0 0 0 1px rgba(53,214,164,.42), 0 22px 64px -18px rgba(53,214,164,.75)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .tier.pro{animation:none}
+  }
   .price{font-size:30px; font-weight:700; margin:2px 0 4px}
   .tier ul{margin:16px 0 0; padding:0 0 0 20px; color:var(--muted); font-size:15px}
   .tier li{margin:0 0 8px}
-  .tag{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+  .tag{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
 
   .gallery{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-top:34px; align-items:start}
   .gallery img{
@@ -247,7 +271,7 @@
   <div class="wrap">
     <h2>Free, plus one optional unlock</h2>
     <div class="tiers">
-      <div class="tier lead">
+      <div class="tier">
         <p class="tag">Free forever</p>
         <p class="price">$0</p>
         <p style="color:var(--muted);font-size:15px;margin:0">Everything that makes the app worth having.</p>
@@ -258,7 +282,8 @@
           <li>No ads and no account</li>
         </ul>
       </div>
-      <div class="tier">
+      <div class="tier pro">
+        <span class="pro-mark">PRO</span>
         <p class="tag">Lifetime unlock</p>
         <p class="price">$9.99</p>
         <p style="color:var(--muted);font-size:15px;margin:0">A single purchase, not a subscription.</p>
