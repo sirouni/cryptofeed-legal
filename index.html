@@ -39,6 +39,7 @@
     --radius:18px;
   }
   *{box-sizing:border-box}
+  html,body{overflow-x:clip}
   html{scroll-behavior:smooth}
   body{
     margin:0; background:var(--bg); color:var(--ink);
@@ -58,9 +59,28 @@
   p{margin:0 0 16px}
   .lede{font-size:clamp(17px,2.1vw,20px); color:var(--muted); max-width:60ch}
 
+  .topbar{
+    position:sticky; top:0; z-index:20;
+    border-bottom:1px solid var(--line);
+    background:rgba(7,11,18,.78);
+    backdrop-filter:saturate(1.4) blur(16px);
+    -webkit-backdrop-filter:saturate(1.4) blur(16px);
+  }
+  .topbar .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; min-height:64px; padding-top:8px; padding-bottom:8px;
+  }
+  .brand{
+    color:var(--ink); font-weight:650; letter-spacing:-.02em;
+    font-size:15px; white-space:nowrap; min-width:0;
+  }
+  .brand:hover{text-decoration:none; color:var(--accent)}
+  .topbar .btn img{height:40px}
+  .topbar .btn:focus-visible{outline:2px solid var(--accent); outline-offset:4px; border-radius:8px}
+
   header.hero{
     position:relative; overflow:hidden;
-    padding:96px 0 72px;
+    padding:72px 0 72px;
     background:
       radial-gradient(90rem 44rem at 50% -18rem, rgba(47,169,198,.30), transparent 62%),
       radial-gradient(60rem 34rem at 88% 8%, rgba(53,214,164,.16), transparent 60%);
@@ -130,12 +150,23 @@
     .hero-grid{grid-template-columns:1fr; gap:40px}
     .steps,.features,.tiers{grid-template-columns:1fr}
     .gallery{grid-template-columns:repeat(2,1fr)}
-    header.hero{padding:64px 0 48px}
+    .topbar .wrap{min-height:56px}
+    .topbar .btn img{height:36px}
+    header.hero{padding:48px 0 48px}
     section{padding:60px 0}
   }
 </style>
 </head>
 <body>
+
+<nav class="topbar" aria-label="Primary">
+  <div class="wrap">
+    <a class="brand" href="#">Floating Crypto</a>
+    <a class="btn" href="https://apps.apple.com/app/id6802193430">
+      <img src="assets/appstore-badge.svg" alt="Download on the App Store" width="120" height="40">
+    </a>
+  </div>
+</nav>
 
 <header class="hero">
   <div class="wrap hero-grid">
@@ -148,9 +179,6 @@
         No tab switching. No pull to refresh.
       </p>
       <div class="cta-row">
-        <a class="btn" href="https://apps.apple.com/app/id6802193430">
-          <img src="assets/appstore-badge.svg" alt="Download on the App Store" width="162" height="54">
-        </a>
         <a class="btn-ghost" href="#how">See how it works</a>
       </div>
       <p class="note">Free with one coin · Optional one-time unlock · No subscription, no ads, no account</p>
