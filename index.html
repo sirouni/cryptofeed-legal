@@ -99,7 +99,9 @@
   .note{font-size:13px; color:var(--muted); margin:16px 0 0}
 
   .shot{
-    width:100%; border-radius:26px; display:block;
+    width:100%; height:auto; aspect-ratio:460 / 999;
+    object-fit:contain; object-position:top;
+    border-radius:26px; display:block;
     border:1px solid var(--line);
     box-shadow:0 40px 90px -30px rgba(0,0,0,.85);
   }
@@ -126,8 +128,12 @@
   .tier li{margin:0 0 8px}
   .tag{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
 
-  .gallery{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:34px}
-  .gallery img{width:100%; border-radius:16px; border:1px solid var(--line); display:block}
+  .gallery{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; margin-top:34px; align-items:start}
+  .gallery img{
+    width:100%; height:auto; aspect-ratio:560 / 1218;
+    object-fit:contain; object-position:top;
+    border-radius:16px; border:1px solid var(--line); display:block;
+  }
 
   details{
     background:var(--panel); border:1px solid var(--line);
@@ -184,7 +190,7 @@
       <p class="note">Free with one coin · Optional one-time unlock · No subscription, no ads, no account</p>
     </div>
     <div>
-      <img class="shot" src="assets/hero.jpg" alt="A Bitcoin price window floating above a Safari page on iPhone" width="460" height="1000">
+      <img class="shot" src="assets/hero.jpg" alt="A Bitcoin price window floating above a Safari page on iPhone" width="460" height="999">
     </div>
   </div>
 </header>
