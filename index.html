@@ -1,23 +1,309 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cryptofeed</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 680px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.7; }
-    h1 { font-size: 28px; margin-bottom: 8px; }
-    .sub { color: #666; margin-bottom: 32px; }
-    a.card { display: block; padding: 16px 18px; border: 1px solid #e5e5e5; border-radius: 10px; margin-bottom: 12px; text-decoration: none; color: inherit; }
-    a.card:hover { background: #fafafa; }
-    a.card strong { display: block; margin-bottom: 4px; }
-    a.card span { color: #666; font-size: 14px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Floating Crypto — Bitcoin prices in Picture in Picture</title>
+<meta name="description" content="Floating Crypto casts a live BTC, ETH and SOL ticker into iOS Picture in Picture, so prices keep updating in a floating window while you use any other app. Free for one coin.">
+<link rel="canonical" href="https://sirouni.github.io/cryptofeed-legal/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Floating Crypto — Bitcoin prices in Picture in Picture">
+<meta property="og:description" content="A live crypto ticker in iOS Picture in Picture. Prices float over any other app. Free for one coin.">
+<meta property="og:url" content="https://sirouni.github.io/cryptofeed-legal/">
+<meta property="og:image" content="https://sirouni.github.io/cryptofeed-legal/assets/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Floating Crypto",
+  "operatingSystem": "iOS 17.0 or later",
+  "applicationCategory": "FinanceApplication",
+  "url": "https://apps.apple.com/app/id6802193430",
+  "description": "Casts a live crypto ticker into iOS Picture in Picture so prices keep updating in a floating window while you use other apps.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "description": "Free with one watchlist coin. Optional one-time unlock for multi-coin watchlist, PiP side quotes and price alerts."
+  }
+}
+</script>
+
+<style>
+  :root{
+    --bg:#070B12; --panel:#0E1522; --line:rgba(255,255,255,.09);
+    --ink:#F2F5FA; --muted:#8C97A9; --accent:#35D6A4; --accent2:#2FA9C6;
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px}
+  .eyebrow{
+    font-size:12px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); margin:0 0 14px;
+  }
+  h1{font-size:clamp(34px,6vw,60px); line-height:1.08; letter-spacing:-.02em; margin:0 0 20px}
+  h2{font-size:clamp(24px,3.4vw,34px); line-height:1.2; letter-spacing:-.01em; margin:0 0 14px}
+  h3{font-size:17px; margin:0 0 6px}
+  p{margin:0 0 16px}
+  .lede{font-size:clamp(17px,2.1vw,20px); color:var(--muted); max-width:60ch}
+
+  header.hero{
+    position:relative; overflow:hidden;
+    padding:96px 0 72px;
+    background:
+      radial-gradient(90rem 44rem at 50% -18rem, rgba(47,169,198,.30), transparent 62%),
+      radial-gradient(60rem 34rem at 88% 8%, rgba(53,214,164,.16), transparent 60%);
+  }
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
+  .cta-row{display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:28px}
+  .btn{display:inline-flex; align-items:center}
+  .btn img{height:54px; width:auto; display:block}
+  .btn:hover{text-decoration:none; filter:brightness(1.07)}
+  .btn-ghost{
+    display:inline-flex; align-items:center; gap:8px;
+    border:1px solid var(--line); color:var(--ink); font-weight:600;
+    padding:14px 22px; border-radius:999px; font-size:15px;
+  }
+  .btn-ghost:hover{text-decoration:none; border-color:rgba(255,255,255,.24)}
+  .note{font-size:13px; color:var(--muted); margin:16px 0 0}
+
+  .shot{
+    width:100%; border-radius:26px; display:block;
+    border:1px solid var(--line);
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.85);
+  }
+
+  section{padding:80px 0; border-top:1px solid var(--line)}
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:34px}
+  .step{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:26px}
+  .step .n{
+    display:inline-grid; place-items:center; width:30px; height:30px; border-radius:50%;
+    background:rgba(53,214,164,.14); color:var(--accent);
+    font-weight:700; font-size:14px; margin-bottom:14px;
+  }
+  .step p{margin:0; color:var(--muted); font-size:15px}
+
+  .features{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:34px}
+  .feature{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:24px}
+  .feature p{margin:0; color:var(--muted); font-size:15px}
+
+  .tiers{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:34px}
+  .tier{background:var(--panel); border:1px solid var(--line); border-radius:var(--radius); padding:28px}
+  .tier.lead{border-color:rgba(53,214,164,.34); background:linear-gradient(180deg,rgba(53,214,164,.07),var(--panel))}
+  .price{font-size:30px; font-weight:700; margin:2px 0 4px}
+  .tier ul{margin:16px 0 0; padding:0 0 0 20px; color:var(--muted); font-size:15px}
+  .tier li{margin:0 0 8px}
+  .tag{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+
+  .gallery{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:34px}
+  .gallery img{width:100%; border-radius:16px; border:1px solid var(--line); display:block}
+
+  details{
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; padding:18px 22px; margin-bottom:12px;
+  }
+  details summary{cursor:pointer; font-weight:600; list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::after{content:"+"; float:right; color:var(--muted)}
+  details[open] summary::after{content:"–"}
+  details p{margin:12px 0 0; color:var(--muted); font-size:15px}
+
+  footer{padding:56px 0 72px; border-top:1px solid var(--line); color:var(--muted); font-size:14px}
+  footer .links{display:flex; flex-wrap:wrap; gap:22px; margin-bottom:20px}
+  .disclaimer{
+    margin-top:26px; padding:16px 18px; border-left:2px solid rgba(53,214,164,.4);
+    background:rgba(53,214,164,.05); color:var(--muted); font-size:13px; border-radius:0 10px 10px 0;
+  }
+
+  @media (max-width:880px){
+    .hero-grid{grid-template-columns:1fr; gap:40px}
+    .steps,.features,.tiers{grid-template-columns:1fr}
+    .gallery{grid-template-columns:repeat(2,1fr)}
+    header.hero{padding:64px 0 48px}
+    section{padding:60px 0}
+  }
+</style>
 </head>
 <body>
-  <h1>Cryptofeed / 加密行情</h1>
-  <p class="sub">把实时行情投送到 iOS 系统画中画。</p>
-  <a class="card" href="privacy.html"><strong>隐私政策</strong><span>Privacy Policy</span></a>
-  <a class="card" href="support.html"><strong>支持与反馈</strong><span>Support</span></a>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="eyebrow">Floating Crypto · iPhone &amp; iPad</p>
+      <h1>Crypto prices that float on top of everything else.</h1>
+      <p class="lede">
+        Floating Crypto casts a live ticker into system Picture in Picture, so BTC, ETH and SOL
+        keep updating in a small floating window while you read, scroll, or watch something else.
+        No tab switching. No pull to refresh.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="https://apps.apple.com/app/id6802193430">
+          <img src="assets/appstore-badge.svg" alt="Download on the App Store" width="162" height="54">
+        </a>
+        <a class="btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="note">Free with one coin · Optional one-time unlock · No subscription, no ads, no account</p>
+    </div>
+    <div>
+      <img class="shot" src="assets/hero.jpg" alt="A Bitcoin price window floating above a Safari page on iPhone" width="460" height="1000">
+    </div>
+  </div>
+</header>
+
+<section id="how">
+  <div class="wrap">
+    <h2>Three taps, then forget about it</h2>
+    <p class="lede">The floating window is the product, so it is never behind a paywall.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="n">1</span>
+        <h3>Pick a coin</h3>
+        <p>Choose the symbol you actually care about from your watchlist.</p>
+      </div>
+      <div class="step">
+        <span class="n">2</span>
+        <h3>Tap Cast to PiP</h3>
+        <p>The quote moves into a real system Picture in Picture window.</p>
+      </div>
+      <div class="step">
+        <span class="n">3</span>
+        <h3>Leave the app</h3>
+        <p>The price stays on top of whatever you do next, still updating.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>What's inside</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>Live price and 24h change</h3>
+        <p>Public market data, streamed over a websocket rather than polled on a timer.</p>
+      </div>
+      <div class="feature">
+        <h3>Eight chart periods</h3>
+        <p>Sparklines from one minute through one month, each built from real candles.</p>
+      </div>
+      <div class="feature">
+        <h3>Move it anywhere</h3>
+        <p>Drag the floating window to any corner, or tuck it off screen until you need it.</p>
+      </div>
+      <div class="feature">
+        <h3>Built dark and quiet</h3>
+        <p>One forced dark theme designed to be glanced at, not stared at.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Free, plus one optional unlock</h2>
+    <div class="tiers">
+      <div class="tier lead">
+        <p class="tag">Free forever</p>
+        <p class="price">$0</p>
+        <p style="color:var(--muted);font-size:15px;margin:0">Everything that makes the app worth having.</p>
+        <ul>
+          <li>Full Cast to Picture in Picture</li>
+          <li>One watchlist coin, switchable any time</li>
+          <li>All eight chart periods</li>
+          <li>No ads and no account</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <p class="tag">Lifetime unlock</p>
+        <p class="price">$9.99</p>
+        <p style="color:var(--muted);font-size:15px;margin:0">A single purchase, not a subscription.</p>
+        <ul>
+          <li>Watchlist up to 8 coins</li>
+          <li>Up to 3 side quotes inside the floating window</li>
+          <li>Price alerts on the coin you are watching</li>
+          <li>Restore purchases on any device</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>A look around</h2>
+    <div class="gallery">
+      <img src="assets/shot-1.jpg" alt="Live Markets screen with the Cast to PiP button" width="560" height="1218" loading="lazy">
+      <img src="assets/shot-2.jpg" alt="Watchlist of eight coins with live quotes" width="560" height="1218" loading="lazy">
+      <img src="assets/shot-3.jpg" alt="Setting a target price for an alert" width="560" height="1218" loading="lazy">
+      <img src="assets/shot-4.jpg" alt="About screen describing the privacy posture" width="560" height="1218" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Questions</h2>
+
+    <details open>
+      <summary>Is this real Picture in Picture, or a custom overlay?</summary>
+      <p>It is the real system feature, the same one video apps use. That is why the window survives
+      leaving the app and can sit above anything else on the screen.</p>
+    </details>
+
+    <details>
+      <summary>Why does the app declare background audio?</summary>
+      <p>iOS keeps Picture in Picture frames updating for apps with an active audio session. Floating
+      Crypto plays a silent, zero volume buffer purely to hold that session open. Nothing audible is
+      ever played, and no audio is recorded.</p>
+    </details>
+
+    <details>
+      <summary>Where do the prices come from?</summary>
+      <p>Public market data from Binance, read only. There is no trading, no wallet, no API key to
+      paste in, and no referral link anywhere in the app.</p>
+    </details>
+
+    <details>
+      <summary>What data do you collect?</summary>
+      <p>None that identifies you. There is no account, no analytics SDK, and no tracking. Your
+      watchlist and preferences stay on the device. See the
+      <a href="privacy.html">privacy policy</a> for the full detail.</p>
+    </details>
+
+    <details>
+      <summary>Does it support Dynamic Island or a home screen widget?</summary>
+      <p>Not in this version. Picture in Picture is the only surface Floating Crypto ships today.</p>
+    </details>
+
+    <div class="disclaimer">
+      Floating Crypto displays public market quotes for a quick glance. It is not investment advice,
+      and it offers no trading, custody, or referral service of any kind.
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="links">
+      <a href="https://apps.apple.com/app/id6802193430">App Store</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="support.html">Support</a>
+      <a href="mailto:sirouni@gmail.com">sirouni@gmail.com</a>
+    </div>
+    <p style="margin:0">© 2026 Floating Crypto · 加密行情</p>
+  </div>
+</footer>
+
 </body>
 </html>
