@@ -6,6 +6,9 @@
 <title>Floating Crypto — Bitcoin prices in Picture in Picture</title>
 <meta name="description" content="Floating Crypto casts a live BTC, ETH and SOL ticker into iOS Picture in Picture, so prices keep updating in a floating window while you use any other app. Free for one coin.">
 <link rel="canonical" href="https://sirouni.github.io/cryptofeed-legal/">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Floating Crypto — Bitcoin prices in Picture in Picture">
@@ -85,7 +88,9 @@
       radial-gradient(90rem 44rem at 50% -18rem, rgba(47,169,198,.30), transparent 62%),
       radial-gradient(60rem 34rem at 88% 8%, rgba(53,214,164,.16), transparent 60%);
   }
-  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
+  /* Top-aligned so the App Store button stays above the fold beside the tall phone frame. */
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:start}
+  .hero-grid > div:first-child{padding-top:clamp(0px,4vw,56px)}
   .cta-row{display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin-top:28px}
   .btn{display:inline-flex; align-items:center}
   .btn img{height:54px; width:auto; display:block}
@@ -209,6 +214,9 @@
         No tab switching. No pull to refresh.
       </p>
       <div class="cta-row">
+        <a class="btn" href="https://apps.apple.com/app/id6802193430">
+          <img src="assets/appstore-badge.svg" alt="Download on the App Store" width="162" height="54">
+        </a>
         <a class="btn-ghost" href="#how">See how it works</a>
       </div>
       <p class="note">Free with one coin · Optional one-time unlock · No subscription, no ads, no account</p>
